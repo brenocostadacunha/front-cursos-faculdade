@@ -1,0 +1,207 @@
+@use "variables" as *;
+body {
+  margin: 0;
+  font-family: "Poppins", "Segoe UI", "GeezaPro", "DejaVu Serif", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+
+:root {
+  --bs-main-color: #{$main-color};
+  --btn-radius: #{$btn-border-radius};
+
+  --border-radius: #{$border-radius};
+  --border-radius-small: #{$border-radius-small};
+  --border-radius-big: #{$border-radius-big};
+
+  @each $color-name, $color in $theme-colors {
+    .text-#{$color-name} {
+      color: $color !important;
+      border-color: $color !important;
+    }
+    .bg-#{$color-name} {
+      background: $color !important;
+    }
+
+
+    .text-color-#{$color-name} {
+      color: $color !important;
+    }
+
+    .txt-underline{
+      text-decoration: underline;
+    }
+
+    .btn-#{$color-name} {
+      color: #fff !important;
+      background-color: $color !important;
+      border-color: $color !important;
+    }
+
+    .btn-outline-#{$color-name} {
+      color: $color;
+      border-color: $color !important;
+    }
+
+    .border-#{$color-name} {
+      border: $color 1px solid !important;
+    }
+
+    .icon-color-#{$color-name} {
+      color: $color !important;
+    }
+  }
+  @each $display-name, $display-value in $displays {
+    .d-#{$display-name} {
+      display: $display-value;
+    }
+  }
+  @each $size-name, $size-value in $font-sizes {
+    .fs-#{$size-name} {
+      font-size: $size-value;
+    }
+  }
+  @each $weight-name, $weight-value in $weights {
+    .fw-#{$weight-name} {
+      font-weight: $weight-value;
+    }
+  }
+  @each $padding-name, $padding-value in $padding-x {
+    .px-#{$padding-name} {
+      padding-left: $padding-value;
+      padding-right: $padding-value;
+    }
+  }
+
+  @each $padding-name, $padding-value in $padding-y {
+    .py-#{$padding-name} {
+      padding-top: $padding-value;
+      padding-bottom: $padding-value;
+    }
+  }
+
+  @each $gap-name, $gap-value in $gap {
+    .gap-#{$gap-name} {
+      gap: $gap-value !important;
+    }
+  }
+
+ 
+  @each $gradient-name, $gradient-value in $gradient-colors {
+    .bg-gradient-#{$gradient-name} {
+      background: $gradient-value !important;
+    }
+  }
+
+  @each $name, $value in $gradient-colors {
+    .text-gradient-#{$name} {
+      background: $value !important;
+      background-repeat: no-repeat;
+
+      &-full {
+        @extend .bg-gradient-#{$name};
+        min-height: 100vh;
+      }
+
+      &-text {
+        background: $value;
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        display: inline-block;
+      }
+    }
+  }
+
+}
+
+.btn-primary{
+  --btn-radius: 20px ;
+  border: 3px solid var(--bs-primary);
+  transition: all 0.3s ease;
+  background-color: var(--bs-primary);
+  padding: 0.5rem 1.5rem;
+
+  &:hover {
+    background-color: transparent !important;
+    color: var(--bs-main-color) !important;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: var(--bs-primary) !important;
+      color: white !important;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--bs-primary);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: var(--bs-primary);
+  --bs-gradient: none;
+}
+
+.btn {
+  --bs--btn-radius: 12px !important;
+  border-width: 2px !important;
+  border-radius: 8px !important;
+
+}
+
+.rounded-big {
+  border-radius: var(--border-radius-big) !important;
+}
+
+
+input.form-control,
+button.btn {
+  height: 50px;
+}
+
+input.form-control {
+  width: 100% !important;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+input.form-control:focus {
+  border-color: var(--bs-main-color) !important;
+  box-shadow: 0 0 0 .2rem rgba(109, 40, 217, .25) !important;
+  outline: 0;
+}
