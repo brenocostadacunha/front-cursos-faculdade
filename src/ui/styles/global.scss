@@ -1,2 +1,11 @@
 @use "variables" as *;
 @use "root" as *;
+
+
+.hero-gradient-background {
+  background-image: linear-gradient(to right, #000000, #0a0118, #000000);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+}
