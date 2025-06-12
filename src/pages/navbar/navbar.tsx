@@ -1,9 +1,9 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import NavbarBS from 'react-bootstrap/Navbar'; 
+import NavbarBS from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 function Navbar() {
   const expand = 'lg';
@@ -24,10 +24,9 @@ function Navbar() {
       }}
     >
       <Container>
-        <NavbarBS.Brand href="#">Ai Chaves</NavbarBS.Brand>
-        <NavbarBS.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+        <NavbarBS.Brand as={Link} to="/home">Ai Chaves</NavbarBS.Brand> 
 
-        {/* Menu lateral bacana kkk (Offcanvas) que aparece em telas mobile */}
+        <NavbarBS.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <NavbarBS.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}

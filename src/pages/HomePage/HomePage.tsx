@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import heroImage from '../../assets/image/illustrationHome.png';
+import heroImage from '../../assets/image/oGrandeMestre.png';
 import NavigationBar from '../navbar/navbar';
 
 const PaginaPrincipal: React.FC = () => {
@@ -13,17 +13,18 @@ const PaginaPrincipal: React.FC = () => {
         className="hero-gradient-background text-white py-5 d-flex align-items-center pt-6" 
         style={{
            minHeight: '100vh',
+           
         }}
       >
         <Container>
           <Row className="align-items-center">
             <Col lg={6} md={12} className="position-relative">
-              <h1 className="display-3 fw-bold mb-4">MOBILE<br />ILLUSTRATION</h1>
+              <h1 className="display-3 fw-bold mb-4">O Grande Mestre <br />Do Cadastro</h1>
               <p className="fs-5 mb-4 pe-lg-5">
-                Lorem Ipsum is simply dummy text of the printing
-                and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the
-                1500s,
+                Cansado da bagunça de cadastrar cursos, turmas e áreas?
+                Liberte o poder da organização! Com **O Grande Mestre Do Cadastro**,
+                gerenciar seus dados educacionais é tão fácil que parece trapaça (no bom sentido!).
+                Diga adeus às planilhas e olá para a maestria!
               </p>
               <div className="d-flex flex-wrap gap-3">
                 <Link to="/cursos/cadastro">
@@ -47,7 +48,7 @@ const PaginaPrincipal: React.FC = () => {
                 </Link>
               </div>
             </Col>
-            <Col lg={6} md={12} className="mt-4 mt-lg-0 position-relative">
+            <Col lg={6} md={12} className="mt-4 mt-lg-0  position-relative">
               <img src={heroImage} alt="Hero Illustration" className="img-fluid" />
             </Col>
           </Row>
