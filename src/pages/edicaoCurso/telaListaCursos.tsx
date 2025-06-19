@@ -1,4 +1,7 @@
-import NavigationBar from '../navbar/navbar';
+import React from 'react';
+import NavigationBar from '../../ui/components/NavigationBar/NavigationBar';
+import PageLayout from '../../ui/components/PageLayout/PageLayout';
+import CourseTable from '../../ui/components/CourseTable/CourseTable';
 
 const cursosExemplo = [
     { id: 1, nomeCurso: 'React Native', nomeProfessor: 'Mestre Jalin Rabei', areaCurso: 'T.I', aluno: 'Julio Silva' },
@@ -6,61 +9,26 @@ const cursosExemplo = [
     { id: 3, nomeCurso: 'Mecânica de Caminhões', nomeProfessor: 'Mestre Jalin Rabei', areaCurso: 'Indústria e Manutenção', aluno: 'Julio Silva' },
     { id: 4, nomeCurso: 'Pintura', nomeProfessor: 'Elma Maria', areaCurso: 'Artes', aluno: 'Julio Silva' },
 ];
-
 function TelaListaCursos() {
+    const handleDelete = (id: number) => {
+        console.log('Deletar curso com ID:', id);
+    };
+    const handleEdit = (id: number) => {
+        console.log('Editar curso com ID:', id);
+
+    };
     return (
         <>
             <NavigationBar />
-            <div
-                className="hero-gradient-background text-white py-5" 
-                style={{
-                   minHeight: '100vh', 
-                }}
-            >
-                <div className="container my-5">
-                    <h2 className="text-center mb-4">Cursos Cadastrados</h2>
-
-                    <div className="card">
-                        <div className="card-body text-dark">
-                            <h4 className="card-title text-center mb-3">Lista de Cursos Disponíveis</h4> 
-                            <hr className="border-dark mb-4" />
-
-                            <div className="table-responsive">
-                                <table className="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nome do Curso</th>
-                                            <th scope="col">Nome do Professor</th>
-                                            <th scope="col">Área do Curso</th>
-                                            <th scope="col">Aluno no Curso</th>
-                                            <th scope="col"></th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {cursosExemplo.map(curso => (
-                                            <tr key={curso.id}>
-                                                <td>{curso.nomeCurso}</td>
-                                                <td>{curso.nomeProfessor}</td>
-                                                <td>{curso.areaCurso}</td>
-                                                <td><span role="img" aria-label="ícone de pessoa">👤</span> {curso.aluno}</td>
-                                                <td>
-                                                    <button className="btn btn-danger btn-sm">Delete</button>
-                                                </td>
-                                                <td>
-                                                    <button className="btn btn-success btn-sm">Edit</button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <PageLayout>
+                <CourseTable 
+                    title="Lista de Cursos Disponíveis"
+                    courses={cursosExemplo}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                />
+            </PageLayout>
         </>
     );
 }
-
 export default TelaListaCursos;
