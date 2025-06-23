@@ -44,9 +44,13 @@ export const useLoginForm = (): LoginFormHook => {
     setError('');
 
     try {
-      await login(email, password);
-
-      navigate(from, { replace: true });
+      const response = await login(email, password);
+      
+      if (response.success) {
+        navigate(from, { replace: true });
+      } else {
+        setError('Falha ao fazer login. Verifique suas credenciais.');
+      }
     } catch (err: any) {
       setError(err.message || 'Falha ao fazer login. Verifique suas credenciais.');
     } finally {

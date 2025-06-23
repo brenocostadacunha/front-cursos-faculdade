@@ -8,7 +8,8 @@ const LoginForm = () => {
     setPassword,
     isFormInvalid,
     handleLogin,
-    error
+    error,
+    isLoading
   } = useLoginForm();
 
   return (
@@ -56,9 +57,9 @@ const LoginForm = () => {
             <button
               className="btn btn-primary w-100 mt-4"
               type="submit"
-              disabled={isFormInvalid}
+              disabled={isFormInvalid || isLoading}
             >
-              <span>LOGIN</span>
+              <span>{isLoading ? 'ENTRANDO...' : 'LOGIN'}</span>
             </button>
           </div>
         </div>
