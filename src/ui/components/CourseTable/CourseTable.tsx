@@ -10,7 +10,6 @@ interface CourseTableProps {
 const CourseTable: React.FC<CourseTableProps> = ({ title, courses, onDelete, onEdit }) => {
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">{title}</h2>
       <div className="card">
         <div className="card-body text-dark">
           <h4 className="card-title text-center mb-3">{title}</h4>
@@ -35,10 +34,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ title, courses, onDelete, onE
                     <td>{curso.areaCurso}</td>
                     <td><span role="img" aria-label="ícone de pessoa">👤</span> {curso.aluno}</td>
                     <td>
-                      <button className="btn btn-danger btn-sm" onClick={() => onDelete(curso.id)}>Delete</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => onDelete(curso.id)}>Deletar</button>
                     </td>
                     <td>
-                      <button className="btn btn-success btn-sm" onClick={() => onEdit(curso.id)}>Edit</button>
+                      <button className="btn btn-success btn-sm" onClick={() => onEdit(curso.id)}>Editar</button>
                     </td>
                   </tr>
                 ))}
@@ -52,4 +51,3 @@ const CourseTable: React.FC<CourseTableProps> = ({ title, courses, onDelete, onE
 };
 
 export default CourseTable;
-
