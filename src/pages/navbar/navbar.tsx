@@ -43,6 +43,7 @@ function Navbar() {
               <Nav.Link as={Link} to="#contato" className="mx-2">Contato</Nav.Link>
               <Nav.Link as={Link} to="#cursos" className="mx-2">Cursos</Nav.Link>
               <Nav.Link as={Link} to="/professores" className="mx-2">Professores</Nav.Link>
+              <Nav.Link as={Link} to="/alunos" className="mx-2">Alunos</Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </NavbarBS.Offcanvas>
