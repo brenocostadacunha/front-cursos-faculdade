@@ -5,7 +5,8 @@ import HomePage from './pages/HomePage/HomePage';
 import ProtectedRoute from './ui/components/ProtectedRoute/ProtectedRoute'; 
 import './ui/styles/global.scss';
 import TelaCadastroCurso from './pages/cadastroCurso/telaCadastroCursos'; 
-import TelaListaCursos from './pages/edicaoCurso/telaListaCursos';   
+import TelaListaCursos from './pages/edicaoCurso/telaListaCursos';
+import TelaGerenciamentoProfessores from './pages/professores/telaGerenciamentoProfessores';   
 
 const App: React.FC = () => {
   return (
@@ -35,6 +36,15 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute> 
               <TelaListaCursos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/professores"
+          element={
+            <ProtectedRoute> 
+              <TelaGerenciamentoProfessores />
             </ProtectedRoute>
           }
         />
