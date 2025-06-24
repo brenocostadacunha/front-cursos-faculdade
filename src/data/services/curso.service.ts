@@ -1,7 +1,4 @@
-// Configuração base da API
 const API_BASE_URL = 'http://localhost:3000/api';
-
-// Interface para dados do curso
 export interface Curso {
   id?: number;
   nome: string;
@@ -28,8 +25,6 @@ export interface Curso {
   }>;
   alunosIds?: number[];
 }
-
-// Interface para criar curso
 export interface CreateCursoDto {
   nome: string;
   codigo: string;
@@ -38,8 +33,6 @@ export interface CreateCursoDto {
   professorId: number;
   alunosIds: number[];
 }
-
-// Interface para atualizar curso
 export interface UpdateCursoDto {
   nome?: string;
   codigo?: string;
@@ -56,21 +49,15 @@ class CursoService {
     this.baseURL = baseURL;
   }
 
-  /**
-   * Método privado para fazer requisições HTTP
-   */
+
   private async makeRequest<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
-    
-    // Adiciona headers padrão
     const defaultHeaders: HeadersInit = {
       'Content-Type': 'application/json',
     };
-
-    // Adiciona token de autenticação se disponível
     const token = localStorage.getItem('auth_token');
     if (token) {
       defaultHeaders.Authorization = `Bearer ${token}`;
@@ -86,13 +73,10 @@ class CursoService {
 
     try {
       const response = await fetch(url, config);
-
-      // Verifica se a resposta é bem-sucedida
-      if (!response.ok) {
-        if (response.status === 401) {
-          // Redireciona para login se não autorizado
-          window.location.href = '/login';
-        }
+              if (!response.ok) {
+          if (response.status === 401) {
+            window.location.href = '/login';
+          }
         
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
@@ -112,9 +96,7 @@ class CursoService {
     }
   }
 
-  /**
-   * Lista todos os cursos
-   */
+
   async findAll(): Promise<Curso[]> {
     try {
       const response = await this.makeRequest<Curso[]>('/cursos', {
@@ -126,9 +108,7 @@ class CursoService {
     }
   }
 
-  /**
-   * Busca um curso por ID
-   */
+
   async findById(id: number): Promise<Curso> {
     try {
       const response = await this.makeRequest<Curso>(`/cursos/${id}`, {
@@ -140,9 +120,7 @@ class CursoService {
     }
   }
 
-  /**
-   * Cria um novo curso
-   */
+
   async create(cursoData: CreateCursoDto): Promise<Curso> {
     try {
       const response = await this.makeRequest<Curso>('/cursos', {
@@ -155,9 +133,7 @@ class CursoService {
     }
   }
 
-  /**
-   * Atualiza um curso
-   */
+
   async update(id: number, cursoData: UpdateCursoDto): Promise<Curso> {
     try {
       const response = await this.makeRequest<Curso>(`/cursos/${id}`, {
@@ -170,9 +146,7 @@ class CursoService {
     }
   }
 
-  /**
-   * Remove um curso
-   */
+
   async delete(id: number): Promise<void> {
     try {
       await this.makeRequest<void>(`/cursos/${id}`, {
@@ -183,6 +157,4 @@ class CursoService {
     }
   }
 }
-
-// Instância única do serviço
 export const cursoService = new CursoService(); 

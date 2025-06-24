@@ -30,8 +30,6 @@ function TelaGerenciamentoAlunos() {
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
-  // Carrega a lista de alunos
   const loadAlunos = async () => {
     try {
       setLoading(true);
@@ -48,8 +46,6 @@ function TelaGerenciamentoAlunos() {
   useEffect(() => {
     loadAlunos();
   }, []);
-
-  // Limpa os alerts após 3 segundos
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
@@ -59,8 +55,6 @@ function TelaGerenciamentoAlunos() {
       return () => clearTimeout(timer);
     }
   }, [error, success]);
-
-  // Valida o formulário
   const validateForm = (): boolean => {
     const errors: Partial<FormData> = {};
     
@@ -78,7 +72,7 @@ function TelaGerenciamentoAlunos() {
       errors.matricula = 'Matrícula é obrigatória';
     }
 
-    // Validação opcional do cursoId
+
     if (formData.cursoId && formData.cursoId.trim() && isNaN(Number(formData.cursoId))) {
       errors.cursoId = 'ID do curso deve ser um número';
     }
@@ -86,16 +80,12 @@ function TelaGerenciamentoAlunos() {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  // Abre modal para criar novo aluno
   const handleCreate = () => {
     setEditingAluno(null);
     setFormData({ nome: '', email: '', matricula: '', cursoId: '' });
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal para editar aluno
   const handleEdit = (aluno: Aluno) => {
     setEditingAluno(aluno);
     setFormData({
@@ -107,14 +97,10 @@ function TelaGerenciamentoAlunos() {
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal de confirmação para deletar
   const handleDeleteConfirm = (aluno: Aluno) => {
     setDeletingAluno(aluno);
     setShowDeleteModal(true);
   };
-
-  // Submete o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -127,13 +113,12 @@ function TelaGerenciamentoAlunos() {
     setSuccess('');
 
     try {
-      // Prepara os dados com cursoId como número ou undefined
+
       const cursoId = formData.cursoId && formData.cursoId.trim() 
         ? Number(formData.cursoId) 
         : undefined;
 
-      if (editingAluno) {
-        // Atualizar aluno existente
+              if (editingAluno) {
         const updateData: UpdateAlunoDto = {
           nome: formData.nome,
           email: formData.email,
@@ -142,8 +127,7 @@ function TelaGerenciamentoAlunos() {
         };
         await alunoService.update(editingAluno.id!, updateData);
         setSuccess('Aluno atualizado com sucesso!');
-      } else {
-        // Criar novo aluno
+              } else {
         const createData: CreateAlunoDto = {
           nome: formData.nome,
           email: formData.email,
@@ -162,8 +146,6 @@ function TelaGerenciamentoAlunos() {
       setSubmitting(false);
     }
   };
-
-  // Confirma e executa a exclusão
   const handleDelete = async () => {
     if (!deletingAluno) return;
 
@@ -183,8 +165,6 @@ function TelaGerenciamentoAlunos() {
       setDeletingAluno(null);
     }
   };
-
-  // Fecha modais
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingAluno(null);
@@ -210,7 +190,7 @@ function TelaGerenciamentoAlunos() {
             </Button>
           </div>
 
-          {/* Alerts */}
+
           {error && (
             <Alert variant="danger" dismissible onClose={() => setError('')} className={styles.alertMessage}>
               {error}
@@ -222,7 +202,7 @@ function TelaGerenciamentoAlunos() {
             </Alert>
           )}
 
-          {/* Tabela de Alunos */}
+
           <div className={`card ${styles.tableCard}`}>
             <div className={`card-body text-dark ${styles.cardBody}`}>
               <h4 className="card-title text-center mb-3">Lista de Alunos</h4>
@@ -297,7 +277,7 @@ function TelaGerenciamentoAlunos() {
         </div>
       </div>
 
-      {/* Modal de Criar/Editar Aluno */}
+
       <Modal show={showModal} onHide={handleCloseModal} size="lg" className={styles.customModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -392,7 +372,7 @@ function TelaGerenciamentoAlunos() {
         </Form>
       </Modal>
 
-      {/* Modal de Confirmação de Exclusão */}
+
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} className={`${styles.customModal} ${styles.deleteModal}`}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Exclusão</Modal.Title>

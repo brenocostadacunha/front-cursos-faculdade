@@ -48,8 +48,6 @@ function TelaGerenciamentoCursos() {
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  // Carrega a lista de cursos
   const loadCursos = async () => {
     try {
       setLoading(true);
@@ -62,8 +60,6 @@ function TelaGerenciamentoCursos() {
       setLoading(false);
     }
   };
-
-  // Carrega professores e alunos para os selects
   const loadOptions = async () => {
     try {
       setLoadingOptions(true);
@@ -84,8 +80,6 @@ function TelaGerenciamentoCursos() {
     loadCursos();
     loadOptions();
   }, []);
-
-  // Limpa os alerts após 3 segundos
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
@@ -95,8 +89,6 @@ function TelaGerenciamentoCursos() {
       return () => clearTimeout(timer);
     }
   }, [error, success]);
-
-  // Valida o formulário
   const validateForm = (): boolean => {
     const errors: FormErrors = {};
     
@@ -129,8 +121,6 @@ function TelaGerenciamentoCursos() {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  // Abre modal para criar novo curso
   const handleCreate = () => {
     setEditingCurso(null);
     setFormData({ 
@@ -144,11 +134,8 @@ function TelaGerenciamentoCursos() {
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal para editar curso
-  const handleEdit = (curso: Curso) => {
+      const handleEdit = (curso: Curso) => {
     setEditingCurso(curso);
-    // Mapeia os alunos do curso para seus IDs
     const alunosIds: number[] = curso.alunos ? curso.alunos.map(aluno => aluno.id) : (curso.alunosIds || []);
     setFormData({
       nome: curso.nome,
@@ -161,14 +148,10 @@ function TelaGerenciamentoCursos() {
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal de confirmação para deletar
   const handleDeleteConfirm = (curso: Curso) => {
     setDeletingCurso(curso);
     setShowDeleteModal(true);
   };
-
-  // Manipula seleção de alunos
   const handleAlunoChange = (alunoId: number, checked: boolean) => {
     if (checked) {
       setFormData(prev => ({
@@ -182,8 +165,6 @@ function TelaGerenciamentoCursos() {
       }));
     }
   };
-
-  // Submete o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -206,12 +187,10 @@ function TelaGerenciamentoCursos() {
       };
 
       if (editingCurso) {
-        // Atualizar curso existente
         const updateData: UpdateCursoDto = cursoData;
         await cursoService.update(editingCurso.id!, updateData);
         setSuccess('Curso atualizado com sucesso!');
       } else {
-        // Criar novo curso
         const createData: CreateCursoDto = cursoData;
         await cursoService.create(createData);
         setSuccess('Curso criado com sucesso!');
@@ -225,8 +204,6 @@ function TelaGerenciamentoCursos() {
       setSubmitting(false);
     }
   };
-
-  // Confirma e executa a exclusão
   const handleDelete = async () => {
     if (!deletingCurso) return;
 
@@ -246,8 +223,6 @@ function TelaGerenciamentoCursos() {
       setDeletingCurso(null);
     }
   };
-
-  // Fecha modais
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingCurso(null);
@@ -266,8 +241,6 @@ function TelaGerenciamentoCursos() {
     setShowDeleteModal(false);
     setDeletingCurso(null);
   };
-
-  // Obtém nome do professor por ID ou do objeto professor
   const getProfessorNome = (curso: Curso) => {
     if (curso.professor) {
       return curso.professor.nome;
@@ -275,8 +248,6 @@ function TelaGerenciamentoCursos() {
     const professor = professores.find(p => p.id === curso.professorId);
     return professor ? professor.nome : `Professor ID: ${curso.professorId}`;
   };
-
-  // Obtém quantidade de alunos
   const getAlunosCount = (curso: Curso) => {
     if (curso.alunos) {
       return curso.alunos.length;
@@ -297,7 +268,7 @@ function TelaGerenciamentoCursos() {
             </Button>
           </div>
 
-          {/* Alerts */}
+
           {error && (
             <Alert variant="danger" dismissible onClose={() => setError('')} className={styles.alertMessage}>
               {error}
@@ -309,7 +280,7 @@ function TelaGerenciamentoCursos() {
             </Alert>
           )}
 
-          {/* Tabela de Cursos */}
+
           <div className={`card ${styles.tableCard}`}>
             <div className={`card-body text-dark ${styles.cardBody}`}>
               <h4 className="card-title text-center mb-3">Lista de Cursos</h4>
@@ -392,7 +363,7 @@ function TelaGerenciamentoCursos() {
         </div>
       </div>
 
-      {/* Modal de Criar/Editar Curso */}
+
       <Modal show={showModal} onHide={handleCloseModal} size="xl" className={styles.customModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -564,7 +535,7 @@ function TelaGerenciamentoCursos() {
         </Form>
       </Modal>
 
-      {/* Modal de Confirmação de Exclusão */}
+
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} className={`${styles.customModal} ${styles.deleteModal}`}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Exclusão</Modal.Title>

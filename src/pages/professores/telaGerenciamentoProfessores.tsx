@@ -30,8 +30,6 @@ function TelaGerenciamentoProfessores() {
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
-  // Carrega a lista de professores
   const loadProfessores = async () => {
     try {
       setLoading(true);
@@ -48,8 +46,6 @@ function TelaGerenciamentoProfessores() {
   useEffect(() => {
     loadProfessores();
   }, []);
-
-  // Limpa os alerts após 3 segundos
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
@@ -59,8 +55,6 @@ function TelaGerenciamentoProfessores() {
       return () => clearTimeout(timer);
     }
   }, [error, success]);
-
-  // Valida o formulário
   const validateForm = (): boolean => {
     const errors: Partial<FormData> = {};
     
@@ -85,16 +79,12 @@ function TelaGerenciamentoProfessores() {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  // Abre modal para criar novo professor
   const handleCreate = () => {
     setEditingProfessor(null);
     setFormData({ nome: '', email: '', registro: '', departamento: '' });
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal para editar professor
   const handleEdit = (professor: Professor) => {
     setEditingProfessor(professor);
     setFormData({
@@ -106,14 +96,10 @@ function TelaGerenciamentoProfessores() {
     setFormErrors({});
     setShowModal(true);
   };
-
-  // Abre modal de confirmação para deletar
   const handleDeleteConfirm = (professor: Professor) => {
     setDeletingProfessor(professor);
     setShowDeleteModal(true);
   };
-
-  // Submete o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -127,12 +113,10 @@ function TelaGerenciamentoProfessores() {
 
     try {
       if (editingProfessor) {
-        // Atualizar professor existente
         const updateData: UpdateProfessorDto = { ...formData };
         await professorService.update(editingProfessor.id!, updateData);
         setSuccess('Professor atualizado com sucesso!');
       } else {
-        // Criar novo professor
         const createData: CreateProfessorDto = { ...formData };
         await professorService.create(createData);
         setSuccess('Professor criado com sucesso!');
@@ -146,8 +130,6 @@ function TelaGerenciamentoProfessores() {
       setSubmitting(false);
     }
   };
-
-  // Confirma e executa a exclusão
   const handleDelete = async () => {
     if (!deletingProfessor) return;
 
@@ -167,8 +149,6 @@ function TelaGerenciamentoProfessores() {
       setDeletingProfessor(null);
     }
   };
-
-  // Fecha modais
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingProfessor(null);
@@ -194,7 +174,7 @@ function TelaGerenciamentoProfessores() {
             </Button>
           </div>
 
-          {/* Alerts */}
+
           {error && (
             <Alert variant="danger" dismissible onClose={() => setError('')} className={styles.alertMessage}>
               {error}
@@ -206,7 +186,7 @@ function TelaGerenciamentoProfessores() {
             </Alert>
           )}
 
-          {/* Tabela de Professores */}
+
           <div className={`card ${styles.tableCard}`}>
             <div className={`card-body text-dark ${styles.cardBody}`}>
               <h4 className="card-title text-center mb-3">Lista de Professores</h4>
@@ -281,7 +261,7 @@ function TelaGerenciamentoProfessores() {
         </div>
       </div>
 
-      {/* Modal de Criar/Editar Professor */}
+
       <Modal show={showModal} onHide={handleCloseModal} size="lg" className={styles.customModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -373,7 +353,7 @@ function TelaGerenciamentoProfessores() {
         </Form>
       </Modal>
 
-      {/* Modal de Confirmação de Exclusão */}
+
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} className={`${styles.customModal} ${styles.deleteModal}`}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Exclusão</Modal.Title>

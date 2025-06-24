@@ -1,7 +1,4 @@
-// Configuração base da API
 const API_BASE_URL = 'http://localhost:3000/api';
-
-// Interface para dados do professor
 export interface Professor {
   id?: number;
   nome: string;
@@ -9,16 +6,12 @@ export interface Professor {
   registro: string;
   departamento: string;
 }
-
-// Interface para criar professor
 export interface CreateProfessorDto {
   nome: string;
   email: string;
   registro: string;
   departamento: string;
 }
-
-// Interface para atualizar professor
 export interface UpdateProfessorDto {
   nome?: string;
   email?: string;
@@ -41,13 +34,9 @@ class ProfessorService {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
-    
-    // Adiciona headers padrão
     const defaultHeaders: HeadersInit = {
       'Content-Type': 'application/json',
     };
-
-    // Adiciona token de autenticação se disponível
     const token = localStorage.getItem('auth_token');
     if (token) {
       defaultHeaders.Authorization = `Bearer ${token}`;
@@ -64,10 +53,8 @@ class ProfessorService {
     try {
       const response = await fetch(url, config);
 
-      // Verifica se a resposta é bem-sucedida
       if (!response.ok) {
         if (response.status === 401) {
-          // Redireciona para login se não autorizado
           window.location.href = '/login';
         }
         
@@ -161,5 +148,4 @@ class ProfessorService {
   }
 }
 
-// Instância única do serviço
 export const professorService = new ProfessorService(); 
