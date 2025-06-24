@@ -7,7 +7,8 @@ import './ui/styles/global.scss';
 import TelaCadastroCurso from './pages/cadastroCurso/telaCadastroCursos'; 
 import TelaListaCursos from './pages/edicaoCurso/telaListaCursos';
 import TelaGerenciamentoProfessores from './pages/professores/telaGerenciamentoProfessores';
-import TelaGerenciamentoAlunos from './pages/alunos/telaGerenciamentoAlunos';   
+import TelaGerenciamentoAlunos from './pages/alunos/telaGerenciamentoAlunos';
+import TelaGerenciamentoCursos from './pages/cursos/telaGerenciamentoCursos';   
 
 const App: React.FC = () => {
   return (
@@ -55,6 +56,15 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute> 
               <TelaGerenciamentoAlunos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/cursos/gerenciamento"
+          element={
+            <ProtectedRoute> 
+              <TelaGerenciamentoCursos />
             </ProtectedRoute>
           }
         />

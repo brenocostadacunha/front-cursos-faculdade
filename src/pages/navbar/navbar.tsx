@@ -41,7 +41,7 @@ function Navbar() {
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link as={Link} to="#sobre" className="mx-2">Sobre</Nav.Link>
               <Nav.Link as={Link} to="#contato" className="mx-2">Contato</Nav.Link>
-              <Nav.Link as={Link} to="#cursos" className="mx-2">Cursos</Nav.Link>
+              <Nav.Link as={Link} to="/cursos/gerenciamento" className="mx-2">Cursos</Nav.Link>
               <Nav.Link as={Link} to="/professores" className="mx-2">Professores</Nav.Link>
               <Nav.Link as={Link} to="/alunos" className="mx-2">Alunos</Nav.Link>
             </Nav>
