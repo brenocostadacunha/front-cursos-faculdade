@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Modal, Form, Alert, Spinner } from 'react-bootstrap';
-import NavigationBar from '../navbar/navbar';
+import { Button, Modal, Alert} from 'react-bootstrap';
+import NavigationBar from '../../ui/components/Layout/NavigationBar';
 import { alunoService, type Aluno, type CreateAlunoDto, type UpdateAlunoDto } from '../../data/services/aluno.service';
 import styles from './telaGerenciamentoAlunos.module.scss';
+import AlunoTable from '../../ui/components/Aluno/AlunoTable';
+import AlunoForm from '../../ui/components/Aluno/AlunoForm';
+import AlunoDeleteModal from '../../ui/components/Aluno/AlunoDeleteModal';
 
 interface FormData {
   nome: string;
@@ -190,7 +193,6 @@ function TelaGerenciamentoAlunos() {
             </Button>
           </div>
 
-
           {error && (
             <Alert variant="danger" dismissible onClose={() => setError('')} className={styles.alertMessage}>
               {error}
@@ -202,81 +204,14 @@ function TelaGerenciamentoAlunos() {
             </Alert>
           )}
 
-
-          <div className={`card ${styles.tableCard}`}>
-            <div className={`card-body text-dark ${styles.cardBody}`}>
-              <h4 className="card-title text-center mb-3">Lista de Alunos</h4>
-              <hr className="border-dark mb-4" />
-
-              {loading ? (
-                <div className="text-center py-4">
-                  <Spinner animation="border" role="status" className={styles.loadingSpinner}>
-                    <span className="visually-hidden">Carregando...</span>
-                  </Spinner>
-                </div>
-              ) : (
-                <div className={`table-responsive ${styles.tableResponsive}`}>
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Matrícula</th>
-                        <th>ID do Curso</th>
-                        <th style={{width: '120px'}}>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {alunos.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} className={`text-center ${styles.emptyState}`}>
-                            <div className={styles.emptyIcon}>
-                              <i className="bi bi-person-x"></i>
-                            </div>
-                            Nenhum aluno encontrado
-                          </td>
-                        </tr>
-                      ) : (
-                        alunos.map((aluno) => (
-                          <tr key={aluno.id}>
-                            <td>{aluno.id}</td>
-                            <td>{aluno.nome}</td>
-                            <td>{aluno.email}</td>
-                            <td>{aluno.matricula}</td>
-                            <td>{aluno.cursoId || '-'}</td>
-                            <td>
-                              <div className={`d-flex gap-2 ${styles.actionButtons}`}>
-                                <Button
-                                  variant="outline-primary"
-                                  size="sm"
-                                  onClick={() => handleEdit(aluno)}
-                                  title="Editar"
-                                >
-                                  <i className="bi bi-pencil"></i>
-                                </Button>
-                                <Button
-                                  variant="outline-danger"
-                                  size="sm"
-                                  onClick={() => handleDeleteConfirm(aluno)}
-                                  title="Excluir"
-                                >
-                                  <i className="bi bi-trash"></i>
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </Table>
-                </div>
-              )}
-            </div>
-          </div>
+          <AlunoTable
+            alunos={alunos}
+            loading={loading}
+            onEdit={handleEdit}
+            onDelete={handleDeleteConfirm}
+          />
         </div>
       </div>
-
 
       <Modal show={showModal} onHide={handleCloseModal} size="lg" className={styles.customModal}>
         <Modal.Header closeButton>
@@ -284,124 +219,24 @@ function TelaGerenciamentoAlunos() {
             {editingAluno ? 'Editar Aluno' : 'Novo Aluno'}
           </Modal.Title>
         </Modal.Header>
-        <Form onSubmit={handleSubmit}>
-          <Modal.Body>
-            <div className="row">
-              <div className="col-md-6">
-                <Form.Group className={`mb-3 ${styles.formGroup}`}>
-                  <Form.Label>Nome *</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={formData.nome}
-                    onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                    isInvalid={!!formErrors.nome}
-                    placeholder="Digite o nome do aluno"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formErrors.nome}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className={`mb-3 ${styles.formGroup}`}>
-                  <Form.Label>Email *</Form.Label>
-                  <Form.Control
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    isInvalid={!!formErrors.email}
-                    placeholder="Digite o email"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formErrors.email}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <Form.Group className={`mb-3 ${styles.formGroup}`}>
-                  <Form.Label>Matrícula *</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={formData.matricula}
-                    onChange={(e) => setFormData({ ...formData, matricula: e.target.value })}
-                    isInvalid={!!formErrors.matricula}
-                    placeholder="Digite a matrícula"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formErrors.matricula}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </div>
-              <div className="col-md-6">
-                <Form.Group className={`mb-3 ${styles.formGroup}`}>
-                  <Form.Label>ID do Curso</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={formData.cursoId}
-                    onChange={(e) => setFormData({ ...formData, cursoId: e.target.value })}
-                    isInvalid={!!formErrors.cursoId}
-                    placeholder="Digite o ID do curso (opcional)"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formErrors.cursoId}
-                  </Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    Campo opcional - deixe em branco se não aplicável
-                  </Form.Text>
-                </Form.Group>
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Cancelar
-            </Button>
-            <Button variant="primary" type="submit" disabled={submitting}>
-              {submitting ? (
-                <>
-                  <Spinner animation="border" size="sm" className="me-2" />
-                  Salvando...
-                </>
-              ) : (
-                editingAluno ? 'Atualizar' : 'Criar'
-              )}
-            </Button>
-          </Modal.Footer>
-        </Form>
+        <AlunoForm
+          formData={formData}
+          formErrors={formErrors}
+          submitting={submitting}
+          editingAluno={!!editingAluno}
+          onChange={data => setFormData(prev => ({ ...prev, ...data }))}
+          onSubmit={handleSubmit}
+          onCancel={handleCloseModal}
+        />
       </Modal>
 
-
-      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} className={`${styles.customModal} ${styles.deleteModal}`}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmar Exclusão</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            Tem certeza que deseja excluir o aluno{' '}
-            <strong>{deletingAluno?.nome}</strong>?
-          </p>
-          <p className="text-danger small">
-            Esta ação não pode ser desfeita.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDeleteModal}>
-            Cancelar
-          </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={submitting}>
-            {submitting ? (
-              <>
-                <Spinner animation="border" size="sm" className="me-2" />
-                Excluindo...
-              </>
-            ) : (
-              'Excluir'
-            )}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AlunoDeleteModal
+        show={showDeleteModal}
+        aluno={deletingAluno}
+        onClose={handleCloseDeleteModal}
+        onDelete={handleDelete}
+        submitting={submitting}
+      />
     </>
   );
 }
